@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "722669490799",
+    "firebase_url": "https://healthcare-app-25987-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "healthcare-app-25987",
+    "storage_bucket": "healthcare-app-25987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722669490799:android:805ed94358338586ad739a",
+        "android_client_info": {
+          "package_name": "com.example.health_care_ex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEF4fxVMo4K0UZWJtaR9IQ926jkkjw3Zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
