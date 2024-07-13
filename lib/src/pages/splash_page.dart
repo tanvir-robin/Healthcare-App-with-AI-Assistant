@@ -3,6 +3,7 @@ import 'package:health_care_ex/src/pages/home_page.dart';
 import 'package:health_care_ex/src/theme/light_color.dart';
 import 'package:health_care_ex/src/theme/text_styles.dart';
 import 'package:health_care_ex/src/theme/extention.dart';
+import 'package:health_care_ex/src/utils/auth_gate.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => HomePage()));
+          context, MaterialPageRoute(builder: (_) => const AuthGate()));
     });
     super.initState();
   }

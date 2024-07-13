@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 
 import 'package:health_care_ex/firebase_options.dart';
 import 'package:health_care_ex/src/config/route.dart';
+import 'package:health_care_ex/src/controllers/initialize.dart';
 
 import 'package:health_care_ex/src/theme/theme.dart';
 
@@ -14,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
-
+  InitializeController().init();
   runApp(MyApp());
 }
 

@@ -2,20 +2,26 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
+import 'package:health_care_ex/src/controllers/auth_controller.dart';
 
 import 'package:health_care_ex/src/model/dactor_model.dart';
 import 'package:health_care_ex/src/model/data.dart';
 import 'package:health_care_ex/src/pages/chat_screen.dart';
-import 'package:health_care_ex/src/pages/demo_sc.dart';
+
+import 'package:health_care_ex/src/pages/login_page.dart';
+import 'package:health_care_ex/src/pages/role_selection.dart';
 
 import 'package:health_care_ex/src/theme/extention.dart';
 import 'package:health_care_ex/src/theme/light_color.dart';
 import 'package:health_care_ex/src/theme/text_styles.dart';
 import 'package:health_care_ex/src/theme/theme.dart';
 import 'package:health_care_ex/src/utils/ai_button.dart';
+import 'package:health_care_ex/src/utils/custom_drawer.dart';
 import 'package:health_care_ex/src/utils/loading_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +37,24 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
     super.initState();
+    checkIfProfileCompleted();
   }
+
+  checkIfProfileCompleted() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final response = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    if (response.data()!['isProfileComplete'] != true) {
+      Get.to(() => RoleSelectionScreen());
+    }
+    await AuthController().loadUserData(user.uid);
+    setState(() {});
+  }
+
+  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
   AppBar _appBar() {
     return AppBar(
@@ -39,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       leading: GestureDetector(
         onTap: () {
-          Get.to(() => Demo());
+          scaffoldkey.currentState?.openDrawer();
         },
         child: Icon(
           Icons.short_text,
@@ -61,7 +84,13 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
             ),
-            child: Image.asset("assets/user.png", fit: BoxFit.fill),
+            child: AuthController.userData!['imageUrl'] == null
+                ? Image.asset("assets/user.png", fit: BoxFit.fill)
+                : CachedNetworkImage(
+                    imageUrl: AuthController.userData!['imageUrl'],
+                    fit: BoxFit.fill,
+                  ),
+            // child: Image.asset("assets/user.png", fit: BoxFit.fill),
           ),
         ).p(8),
       ],
@@ -339,6 +368,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldkey,
+      drawer: CustomDrawer(),
       appBar: _appBar(),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: CustomScrollView(
@@ -349,7 +380,9 @@ class _HomePageState extends State<HomePage> {
                 _header(),
                 _searchField(),
                 ChatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const ChatScreen());
+                  },
                 ),
                 _category(),
               ],
