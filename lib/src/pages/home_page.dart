@@ -15,6 +15,7 @@ import 'package:health_care_ex/src/pages/chat_screen.dart';
 
 import 'package:health_care_ex/src/pages/login_page.dart';
 import 'package:health_care_ex/src/pages/role_selection.dart';
+import 'package:health_care_ex/src/pages/video_call.dart';
 
 import 'package:health_care_ex/src/theme/extention.dart';
 import 'package:health_care_ex/src/theme/light_color.dart';
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text("Hello,", style: TextStyles.title.subTitleColor),
-        Text("Peter Parker", style: TextStyles.h1Style),
+        Text("Sadia Shefa", style: TextStyles.h1Style),
       ],
     ).p16;
   }

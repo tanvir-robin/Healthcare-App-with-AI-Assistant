@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:health_care_ex/src/controllers/auth_controller.dart';
+import 'package:health_care_ex/src/pages/about_us.dart';
 import 'package:health_care_ex/src/pages/chat_screen.dart';
+import 'package:health_care_ex/src/pages/medicine_shop.dart';
 
 class CustomDrawer extends StatelessWidget {
   final user = AuthController.userData;
@@ -13,10 +16,12 @@ class CustomDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(user!['name']),
-            accountEmail: Text(user!['email']),
+            accountName: Text(user?['name'] ?? 'Shefa'),
+            accountEmail: Text(user?['email'] ?? 'shfa@g.com'),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(user!['imageUrl']),
+              backgroundImage: user!['imageUrl'] != null
+                  ? CachedNetworkImageProvider(user!['imageUrl'])
+                  : null,
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
@@ -35,6 +40,13 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
+            leading: const Icon(Icons.calendar_today),
+            title: const Text('Medicine'),
+            onTap: () {
+              Get.to(() => MedicineShopPage());
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.support_agent),
             title: const Text('Assistance'),
             onTap: () {
@@ -48,7 +60,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.info),
             title: const Text('About'),
             onTap: () {
-              // Navigate to About Screen
+              Get.to(() => AboutPage());
             },
           ),
           ListTile(

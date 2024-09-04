@@ -56,6 +56,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
       }
 
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'isProfileComplete': true,
         'name': _nameController.text,
         'email': _emailController.text,
         'specialty': _specialtyController.text,
